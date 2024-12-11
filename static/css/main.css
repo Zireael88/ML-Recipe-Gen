@@ -1,5 +1,5 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #ffffff;
@@ -8,21 +8,27 @@ body {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   padding: 10px 20px;
+  margin: 0;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .nav ul {
-  list-style-type: none;
-  padding: 0;
+  display: flex;
+  justify-content: center;
 }
 .nav ul li {
-  display: inline-block;
-  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  margin-right: 50px;
 }
 .nav ul li a {
   color: rgb(0, 0, 0);
   text-decoration: none;
 }
 #header-logo {
-  margin: 0;
   padding: 0;
   width: 7em;
 }

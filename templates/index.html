@@ -1,17 +1,19 @@
 {% extends 'base.html' %} {% block head %} <title>Ingredible</title>{% endblock
 %} {% block body %}
-<img src="" alt="" />
 <header class="header">
   <nav class="nav">
-    <ul>
+    <div id="logo">
       <img
         id="header-logo"
         src="{{ url_for('static', filename='img/ingredible_logo.png') }}"
         alt=""
       />
+    </div>
+    <ul>
       <li><a href="#">Home</a></li>
       <li><a href="#">About</a></li>
     </ul>
   </nav>
 </header>
+
 {% endblock %}
