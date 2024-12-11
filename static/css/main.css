@@ -1,5 +1,5 @@
 body {
-  font-family: "Inter", Arial, sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #ffffff;
@@ -30,26 +30,30 @@ body {
 }
 #header-logo {
   padding: 0;
+  margin-left: 50px;
   width: 7em;
 }
 
 #stock-photo {
-  margin-top: -40px;
+  margin-top: -50px;
   width: 40em;
 }
 
 #ing-txtfld {
-  width: 40em;
+  width: 35em;
   padding: 15px;
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 30px;
   margin-bottom: 10px;
+  font-size: 16px;
 }
 #submit {
   background-color: rgb(247, 159, 26);
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 15px 30px;
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  padding: 15px 40px;
+  font-size: 20px;
 }
 #submit:hover {
   cursor: pointer;
@@ -62,9 +66,11 @@ body {
   width: 80%;
   max-width: 1200px;
 }
-
+#input {
+  margin-top: -30px;
+}
 #tagline {
-  font-size: 2.9em;
+  font-size: 3.3em;
   margin-bottom: 10px;
 }
 #instruction {
