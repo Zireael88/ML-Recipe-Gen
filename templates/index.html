@@ -27,7 +27,7 @@
       Separate ingredients with
       <span style="color: rgb(247, 159, 26)">commas</span>.
     </p>
-    <form method="post">
+    <form method="post" id="recipe-form" action="?submitted=true">
       <input
         type="text"
         id="ing-txtfld"
@@ -36,9 +36,8 @@
         required
       />
       <br />
-      <a href="#recommendations"
-        ><button type="submit" id="submit">Explore Recipes</button></a
-      >
+
+      <button type="submit" id="submit">Explore Recipes</button>
     </form>
   </div>
 </div>
@@ -65,4 +64,15 @@
     {% endfor %}
   </div>
 </div>
+<script>
+  window.onload = function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("submitted")) {
+      const reco = document.getElementById("recommendations");
+      if (reco) {
+        reco.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+</script>
 {% endif %} {% endblock %}

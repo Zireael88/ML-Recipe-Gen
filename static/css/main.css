@@ -128,3 +128,8 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+#bottom {
+  height: 200px;
+  background-color: lightblue;
+  padding: 20px;
+}
