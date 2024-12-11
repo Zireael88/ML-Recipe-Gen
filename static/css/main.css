@@ -32,3 +32,41 @@ body {
   padding: 0;
   width: 7em;
 }
+
+#stock-photo {
+  margin-top: -40px;
+  width: 40em;
+}
+
+#ing-txtfld {
+  width: 40em;
+  padding: 15px;
+  border: 1px solid black;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+#submit {
+  background-color: rgb(247, 159, 26);
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 15px 30px;
+}
+#submit:hover {
+  cursor: pointer;
+}
+
+#landing-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  max-width: 1200px;
+}
+
+#tagline {
+  font-size: 2.9em;
+  margin-bottom: 10px;
+}
+#instruction {
+  color: rgb(127, 125, 125);
+}

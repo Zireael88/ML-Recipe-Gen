@@ -14,6 +14,27 @@
       <li><a href="#">About</a></li>
     </ul>
   </nav>
+  <div id="landing-page">
+    <img
+      id="stock-photo"
+      src="{{ url_for('static', filename='img/stock-photo.png') }}"
+      alt=""
+    />
+    <div id="input">
+      <h1 id="tagline">Find the recipe for you.</h1>
+      <p id="instruction">Separate ingredients with commas</p>
+      <form action="#">
+        <input
+          type="text"
+          id="ing-txtfld"
+          name="ing"
+          placeholder="Enter ingredients"
+        />
+        <br />
+        <button type="submit" id="submit">Explore Recipes</button>
+      </form>
+    </div>
+  </div>
 </header>
 
 {% endblock %}
