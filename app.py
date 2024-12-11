@@ -17,7 +17,7 @@ X_ingredients = vectorizer.fit_transform(data['ingredients_list'])
 X_combined = X_ingredients.toarray()
 
 # Train KNN Model
-knn = NearestNeighbors(n_neighbors=3, metric='euclidean')
+knn = NearestNeighbors(n_neighbors=6, metric='euclidean')
 knn.fit(X_combined)
 
 def recommend_recipes(input_features):
@@ -28,7 +28,7 @@ def recommend_recipes(input_features):
     # Get recommendations
     distances, indices = knn.kneighbors(input_combined)
     recommendations = data.iloc[indices[0]]
-    return recommendations[['recipe_name', 'ingredients_list', 'image_url']].head(5)
+    return recommendations[['recipe_name', 'ingredients_list', 'image_url']].head(10)
 
 # Function to truncate product name
 def truncate(text, length):

@@ -36,13 +36,17 @@
         required
       />
       <br />
-      <button type="submit" id="submit">Explore Recipes</button>
+      <a href="#recommendations"
+        ><button type="submit" id="submit">Explore Recipes</button></a
+      >
     </form>
   </div>
 </div>
 {% if recommendations %}
-<div class="mt-5">
-  <h2>Recommended Recipes</h2>
+
+<div id="recommendations" class="mt-5">
+  <h3>Recommended Recipes</h3>
+  <br />
   <div class="row">
     {% for recipe in recommendations %}
     <div class="col-md-4">
@@ -54,9 +58,7 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{ recipe['recipe_name'] }}</h5>
-          <p class="card-text">
-            {{ recipe['ingredients_list'] | truncate(100) }}
-          </p>
+          <button id="view-recipe">View Recipe</button>
         </div>
       </div>
     </div>
