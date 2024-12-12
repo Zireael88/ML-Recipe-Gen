@@ -1,55 +1,62 @@
 html {
   scroll-behavior: smooth;
 }
+
 body {
   font-family: "Inter", Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   background-color: #ffffff;
 }
+
 .header {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   padding: 10px 20px;
   margin: 0;
 }
+
 .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .nav ul {
   display: flex;
   justify-content: center;
 }
+
 .nav ul li {
-  display: flex;
-  justify-content: center;
   margin-right: 50px;
 }
+
 .nav ul li a {
   color: rgb(0, 0, 0);
   text-decoration: none;
 }
+
 #header-logo {
-  padding: 0;
   margin-left: 50px;
   width: 7em;
 }
 
 #stock-photo {
   margin-top: -50px;
-  width: 40em;
+  width: 100%;
+  max-width: 40em;
 }
 
 #ing-txtfld {
-  width: 35em;
+  width: 100%;
+  max-width: 35em;
   padding: 15px;
   border: 1px solid black;
   border-radius: 30px;
   margin-bottom: 10px;
   font-size: 16px;
 }
+
 #submit,
 #back {
   background-color: rgb(247, 159, 26);
@@ -60,45 +67,59 @@ body {
   font-size: 20px;
   text-decoration: none;
 }
+
 #submit:hover {
   cursor: pointer;
 }
 
 #landing-page {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
+  gap: 20px;
   width: 80%;
   max-width: 1200px;
+  margin: auto;
 }
+
 #input {
   margin-top: -30px;
+  text-align: center;
 }
+
 #tagline {
-  font-size: 3.3em;
+  font-size: 2em;
   margin-bottom: 10px;
 }
+
 #instruction {
   color: rgb(127, 125, 125);
+  font-size: 18px;
 }
+
 .recipe-card {
-  margin-bottom: 20px;
+  margin: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  height: 350px;
+  height: auto;
+  max-width: 100%;
 }
+
 .recipe-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   transform: translateY(-5px);
 }
+
 .recipe-image {
+  width: 100%;
   max-height: 200px;
   object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 200px;
 }
+
 .card-body {
   display: flex;
   flex-direction: column;
@@ -108,7 +129,9 @@ body {
 #recommendations {
   margin: 30px;
   padding: 50px;
+  text-align: center;
 }
+
 #view-recipe {
   background: none;
   border: none;
@@ -118,20 +141,50 @@ body {
   color: rgb(247, 159, 26);
   text-decoration: underline;
 }
-.recipe-card {
-  width: 350px;
-  height: 400px;
-  margin: 20px;
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  #stock-photo {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  #ing-txtfld {
+    width: 90%;
+  }
+
+  #submit,
+  #back {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  #landing-page {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #tagline {
+    font-size: 1.5em;
+  }
+
+  .recipe-card {
+    width: 100%;
+  }
 }
-.card-title {
-  max-height: 3em;
-  line-height: 1.5em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-#bottom {
-  height: 200px;
-  background-color: lightblue;
-  padding: 20px;
+
+@media screen and (max-width: 480px) {
+  #tagline {
+    font-size: 1.2em;
+  }
+
+  #instruction {
+    font-size: 16px;
+  }
+
+  #submit,
+  #back {
+    font-size: 14px;
+    padding: 10px;
+  }
 }
