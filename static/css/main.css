@@ -13,7 +13,7 @@ body {
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   padding: 10px 20px;
-  margin: 0;
+  margin: 10px;
 }
 
 .nav {
@@ -25,6 +25,7 @@ body {
 .nav ul {
   display: flex;
   justify-content: center;
+  list-style-type: none;
 }
 
 .nav ul li {
@@ -42,14 +43,13 @@ body {
 }
 
 #stock-photo {
-  margin-top: -50px;
   width: 100%;
-  max-width: 40em;
+  max-width: 30em;
 }
 
 #ing-txtfld {
   width: 100%;
-  max-width: 35em;
+  max-width: 50em;
   padding: 15px;
   border: 1px solid black;
   border-radius: 30px;
@@ -77,10 +77,10 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 20px;
   width: 80%;
   max-width: 1200px;
   margin: auto;
+  gap: 50px ;
 }
 
 #input {
@@ -89,8 +89,9 @@ body {
 }
 
 #tagline {
-  font-size: 2em;
-  margin-bottom: 10px;
+    font-size: 3em; /* Increase font size */
+    line-height: 1.2; /* Adjust spacing between lines */
+    margin-bottom: 10px;
 }
 
 #instruction {
@@ -129,7 +130,6 @@ body {
 #recommendations {
   margin: 30px;
   padding: 50px;
-  text-align: center;
 }
 
 #view-recipe {
@@ -150,7 +150,7 @@ body {
   }
 
   #ing-txtfld {
-    width: 90%;
+    width: 100%;
   }
 
   #submit,
