@@ -1,20 +1,5 @@
 {% extends 'base.html' %} {% block head %} <title>Ingredible</title>{% endblock
 %} {% block body %}
-<header class="header">
-  <nav class="nav">
-    <div id="logo">
-      <img
-        id="header-logo"
-        src="{{ url_for('static', filename='img/ingredible_logo.png') }}"
-        alt=""
-      />
-    </div>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-    </ul>
-  </nav>
-</header>
 <div id="landing-page">
   <img
     id="stock-photo"
@@ -57,7 +42,10 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{ recipe['recipe_name'] }}</h5>
-          <button id="view-recipe">View Recipe</button>
+          <a
+            href="{{ url_for('view_recipe', recipe_name=recipe['recipe_name']) }}"
+            ><button id="view-recipe">View Recipe</button></a
+          >
         </div>
       </div>
     </div>

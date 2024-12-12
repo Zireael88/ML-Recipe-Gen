@@ -50,5 +50,18 @@ def index():
         )
     return render_template('index.html', recommendations=[])
 
+@app.route('/recipe/<recipe_name>')
+def view_recipe(recipe_name):
+    # Find the specific recipe by name
+    recipe = data[data['recipe_name'] == recipe_name].to_dict(orient='records')
+    
+    if recipe:
+        # Get the first matching recipe (in case of duplicates)
+        recipe = recipe[0]
+        return render_template('recipe_detail.html', recipe=recipe)
+    else:
+        # Handle case where recipe is not found
+        return "Recipe not found", 404
+
 if __name__ == "__main__":
     app.run(debug=True)

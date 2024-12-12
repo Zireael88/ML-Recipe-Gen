@@ -50,13 +50,15 @@ body {
   margin-bottom: 10px;
   font-size: 16px;
 }
-#submit {
+#submit,
+#back {
   background-color: rgb(247, 159, 26);
   color: #ffffff;
   border: none;
   border-radius: 20px;
   padding: 15px 40px;
   font-size: 20px;
+  text-decoration: none;
 }
 #submit:hover {
   cursor: pointer;
@@ -84,7 +86,7 @@ body {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  height: 350px; /* Fixed height for cards */
+  height: 350px;
 }
 .recipe-card:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
@@ -95,7 +97,7 @@ body {
   object-fit: cover;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  height: 200px; /* Fixed height for image */
+  height: 200px;
 }
 .card-body {
   display: flex;
@@ -117,8 +119,8 @@ body {
   text-decoration: underline;
 }
 .recipe-card {
-  width: 350px; /* Set your desired width */
-  height: 400px; /* Set your desired height */
+  width: 350px;
+  height: 400px;
   margin: 20px;
 }
 .card-title {
