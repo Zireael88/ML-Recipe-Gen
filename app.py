@@ -7,11 +7,15 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 app = Flask(__name__)
 
 # Load the dataset
-data = pd.read_csv("recipe_final.csv")
+data = pd.read_csv("filipino_recipes.csv")
+
+#remove bullet points from ingredients column
+data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)
+data_clean = data.dropna()
 
 # Preprocess Ingredients
 vectorizer = TfidfVectorizer()
-X_ingredients = vectorizer.fit_transform(data['ingredients_list'])
+X_ingredients = vectorizer.fit_transform(data_clean['ingredients'])
 
 # Combine Features (Use the dense array directly)
 X_combined = X_ingredients.toarray()
@@ -27,8 +31,8 @@ def recommend_recipes(input_features):
     
     # Get recommendations
     distances, indices = knn.kneighbors(input_combined)
-    recommendations = data.iloc[indices[0]]
-    return recommendations[['recipe_name', 'ingredients_list', 'image_url']].head(10)
+    recommendations = data_clean.iloc[indices[0]]
+    return recommendations[['title', 'ingredients', 'image']].head(10)
 
 # Function to truncate product name
 def truncate(text, length):
@@ -40,8 +44,8 @@ def truncate(text, length):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        ingredients = request.form['ing']
-        input_features = [ingredients]
+        ing = request.form['ing']
+        input_features = [ing]
         recommendations = recommend_recipes(input_features)
         return render_template(
             'index.html',
@@ -53,7 +57,7 @@ def index():
 @app.route('/recipe/<recipe_name>')
 def view_recipe(recipe_name):
     # Find the specific recipe by name
-    recipe = data[data['recipe_name'] == recipe_name].to_dict(orient='records')
+    recipe = data_clean[data_clean['recipe_name'] == recipe_name].to_dict(orient='records')
     
     if recipe:
         # Get the first matching recipe (in case of duplicates)
