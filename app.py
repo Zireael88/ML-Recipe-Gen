@@ -1,80 +1,62 @@
 from flask import Flask, render_template, request
 import numpy as np
 import pandas as pd
-from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
 # Load the dataset
 data = pd.read_csv("filtered_recipes_cleaned.csv")
 
-#remove bullet points from ingredients column
-data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)
-data_clean = data.dropna()
+# Clean ingredients column (remove bullet points or special characters if necessary)
+data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)  # Clean ingredients
+data_clean = data.dropna()  # Remove rows with missing ingredients
 
-# Preprocess Ingredients
-vectorizer = TfidfVectorizer()
+# Vectorize the ingredients using TF-IDF
+vectorizer = TfidfVectorizer(stop_words='english')
 X_ingredients = vectorizer.fit_transform(data_clean['clean_ingredients'])
 
-# Combine Features (Use the dense array directly)
-X_combined = X_ingredients.toarray()
-
-# Train KNN Model
-knn = NearestNeighbors(n_neighbors=6, metric='euclidean')
-knn.fit(X_combined)
-
-def recommend_recipes(input_features):
-    # Check for exact matches in the dataset
-    exact_matches = data_clean[
-        data_clean['clean_ingredients'].str.contains(input_features[0], case=False, na=False)
-    ]
-    if not exact_matches.empty:
-        return exact_matches[['title', 'clean_ingredients', 'image']]
+# Function to recommend recipes based on input ingredients
+def recommend_recipes(input_ingredients):
+    # Transform the input ingredients into the same vectorized form
+    input_vector = vectorizer.transform([input_ingredients])
     
-    # Transform input ingredients for KNN
-    input_ingredients_transformed = vectorizer.transform([input_features[0]])
-    input_combined = input_ingredients_transformed.toarray()
-
-    # Get recommendations
-    distances, indices = knn.kneighbors(input_combined)
-    recommendations = data_clean.iloc[indices[0]]
+    # Compute cosine similarity between the input and all recipes
+    similarity_scores = cosine_similarity(input_vector, X_ingredients)
     
-    # Set a relevance threshold
-    relevance_threshold = 1.5
-    relevant_indices = np.where(distances[0] < relevance_threshold)[0]
+    # Set a threshold for minimum similarity score (you can adjust this threshold)
+    threshold = 0.1  # You can experiment with this value (default 0.1 is low)
     
-    if len(relevant_indices) == 0:
+    # Get the indices of recipes that are above the threshold
+    similar_indices = np.where(similarity_scores > threshold)[1]
+    
+    # If no similar recipes are found, return None
+    if len(similar_indices) == 0:
         return None
     
-    relevant_recommendations = recommendations.iloc[relevant_indices]
-    return relevant_recommendations[['title', 'clean_ingredients', 'image']]
-
-
-
-
-# Function to truncate product name
-def truncate(text, length):
-    if len(text) > length:
-        return text[:length] + "..."
-    else:
-        return text
+    # Get the most similar recipes based on the similarity scores
+    recommendations = data_clean.iloc[similar_indices]
+    
+    return recommendations[['title', 'clean_ingredients', 'image']]
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         ing = request.form['ing']
-        if len(ing.strip()) < 3:  # Minimal input length to ensure validity
+        
+        # Check if input is valid
+        if len(ing.strip()) < 3:
             return render_template(
                 'index.html',
                 recommendations=[],
                 message="Please enter a valid ingredient list."
             )
         
-        input_features = [ing]
-        recommendations = recommend_recipes(input_features)
+        input_ingredients = ing  # User input ingredients
+        recommendations = recommend_recipes(input_ingredients)  # Get recommended recipes
         
-        if recommendations is None:
+        if recommendations is None or recommendations.empty:
             return render_template(
                 'index.html',
                 recommendations=[],
@@ -83,13 +65,9 @@ def index():
         
         return render_template(
             'index.html',
-            recommendations=recommendations.to_dict(orient='records'),
-            truncate=truncate
+            recommendations=recommendations.to_dict(orient='records')
         )
     return render_template('index.html', recommendations=[])
-
-
-
 
 @app.route('/recipe/<title>')
 def view_recipe(title):
