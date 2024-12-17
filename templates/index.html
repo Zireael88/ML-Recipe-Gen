@@ -37,13 +37,13 @@
       <div class="card recipe-card">
         <img
           class="card-img-top recipe-image"
-          src="{{ recipe['image_url'] }}"
-          alt="{{ recipe['recipe_name'] }}"
+          src="{{ recipe['image'] }}"
+          alt="{{ recipe['title'] }}"
         />
         <div class="card-body">
-          <h5 class="card-title">{{ recipe['recipe_name'] }}</h5>
+          <h5 class="card-title">{{ recipe['title'] }}</h5>
           <a
-            href="{{ url_for('view_recipe', recipe_name=recipe['recipe_name']) }}"
+            href="{{ url_for('view_recipe', title=recipe['title']) }}", target="_blank"
             ><button id="view-recipe">View Recipe</button></a
           >
         </div>

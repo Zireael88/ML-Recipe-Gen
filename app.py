@@ -7,7 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 app = Flask(__name__)
 
 # Load the dataset
-data = pd.read_csv("filipino_recipes.csv")
+data = pd.read_csv("filtered_recipes_cleaned.csv")
 
 #remove bullet points from ingredients column
 data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)
@@ -15,7 +15,7 @@ data_clean = data.dropna()
 
 # Preprocess Ingredients
 vectorizer = TfidfVectorizer()
-X_ingredients = vectorizer.fit_transform(data_clean['ingredients'])
+X_ingredients = vectorizer.fit_transform(data_clean['clean_ingredients'])
 
 # Combine Features (Use the dense array directly)
 X_combined = X_ingredients.toarray()
@@ -25,14 +25,33 @@ knn = NearestNeighbors(n_neighbors=6, metric='euclidean')
 knn.fit(X_combined)
 
 def recommend_recipes(input_features):
-    # Transform input ingredients
-    input_ingredients_transformed = vectorizer.transform([input_features[0]])
-    input_combined = input_ingredients_transformed.toarray()  # Use 2D array directly
+    # Check for exact matches in the dataset
+    exact_matches = data_clean[
+        data_clean['clean_ingredients'].str.contains(input_features[0], case=False, na=False)
+    ]
+    if not exact_matches.empty:
+        return exact_matches[['title', 'clean_ingredients', 'image']]
     
+    # Transform input ingredients for KNN
+    input_ingredients_transformed = vectorizer.transform([input_features[0]])
+    input_combined = input_ingredients_transformed.toarray()
+
     # Get recommendations
     distances, indices = knn.kneighbors(input_combined)
     recommendations = data_clean.iloc[indices[0]]
-    return recommendations[['title', 'ingredients', 'image']].head(10)
+    
+    # Set a relevance threshold
+    relevance_threshold = 1.5
+    relevant_indices = np.where(distances[0] < relevance_threshold)[0]
+    
+    if len(relevant_indices) == 0:
+        return None
+    
+    relevant_recommendations = recommendations.iloc[relevant_indices]
+    return relevant_recommendations[['title', 'clean_ingredients', 'image']]
+
+
+
 
 # Function to truncate product name
 def truncate(text, length):
@@ -45,8 +64,23 @@ def truncate(text, length):
 def index():
     if request.method == 'POST':
         ing = request.form['ing']
+        if len(ing.strip()) < 3:  # Minimal input length to ensure validity
+            return render_template(
+                'index.html',
+                recommendations=[],
+                message="Please enter a valid ingredient list."
+            )
+        
         input_features = [ing]
         recommendations = recommend_recipes(input_features)
+        
+        if recommendations is None:
+            return render_template(
+                'index.html',
+                recommendations=[],
+                message="No relevant recipes found for your search."
+            )
+        
         return render_template(
             'index.html',
             recommendations=recommendations.to_dict(orient='records'),
@@ -54,10 +88,13 @@ def index():
         )
     return render_template('index.html', recommendations=[])
 
-@app.route('/recipe/<recipe_name>')
-def view_recipe(recipe_name):
+
+
+
+@app.route('/recipe/<title>')
+def view_recipe(title):
     # Find the specific recipe by name
-    recipe = data_clean[data_clean['recipe_name'] == recipe_name].to_dict(orient='records')
+    recipe = data_clean[data_clean['title'] == title].to_dict(orient='records')
     
     if recipe:
         # Get the first matching recipe (in case of duplicates)
