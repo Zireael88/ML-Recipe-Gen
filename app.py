@@ -25,17 +25,8 @@ def recommend_recipes(input_ingredients):
     # Compute cosine similarity between the input and all recipes
     similarity_scores = cosine_similarity(input_vector, X_ingredients)
     
-    # Set a threshold for minimum similarity score (you can adjust this threshold)
-    threshold = 0.1  # You can experiment with this value (default 0.1 is low)
-    
-    # Get the indices of recipes that are above the threshold
-    similar_indices = np.where(similarity_scores > threshold)[1]
-    
-    # If no similar recipes are found, return None
-    if len(similar_indices) == 0:
-        return None
-    
-    # Get the most similar recipes based on the similarity scores
+    # Get the top 5 most similar recipes based on cosine similarity
+    similar_indices = similarity_scores.argsort()[0][-20:][::-1]
     recommendations = data_clean.iloc[similar_indices]
     
     return recommendations[['title', 'clean_ingredients', 'image']]
@@ -56,7 +47,7 @@ def index():
         input_ingredients = ing  # User input ingredients
         recommendations = recommend_recipes(input_ingredients)  # Get recommended recipes
         
-        if recommendations is None or recommendations.empty:
+        if recommendations.empty:
             return render_template(
                 'index.html',
                 recommendations=[],
@@ -68,6 +59,7 @@ def index():
             recommendations=recommendations.to_dict(orient='records')
         )
     return render_template('index.html', recommendations=[])
+
 
 @app.route('/recipe/<title>')
 def view_recipe(title):
