@@ -44,6 +44,7 @@
           <h5 class="card-title">{{ recipe['recipe_name'] }}</h5>
           <a
             href="{{ url_for('view_recipe', recipe_name=recipe['recipe_name']) }}"
+            target="_blank"
             ><button id="view-recipe">View Recipe</button></a
           >
         </div>
