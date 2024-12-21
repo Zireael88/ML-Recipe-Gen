@@ -1,21 +1,21 @@
 {% extends 'base.html' %} {% block head %}
-<title>{{ recipe['recipe_name'] }} - Ingredible</title>
+<title>{{ recipe['title'] }} - Ingredible</title>
 {% endblock %} {% block body %}
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-6">
       <img
-        src="{{ recipe['image_url'] }}"
-        alt="{{ recipe['recipe_name'] }}"
+        src="{{ recipe['image'] }}"
+        alt="{{ recipe['title'] }}"
         class="img-fluid rounded"
       />
     </div>
     <div class="col-md-6">
-      <h1>{{ recipe['recipe_name'] }}</h1>
+      <h1>{{ recipe['title'] }}</h1>
 
       <h3>Ingredients</h3>
       <ul class="list-group">
-        {% for ingredient in recipe['ingredients_list'].split(',') %}
+        {% for ingredient in recipe['clean_ingredients'].split(',') %}
         <li class="list-group-item">{{ ingredient.strip() }}</li>
         {% endfor %}
       </ul>

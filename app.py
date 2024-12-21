@@ -1,59 +1,70 @@
 from flask import Flask, render_template, request
 import numpy as np
 import pandas as pd
-from sklearn.neighbors import NearestNeighbors
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
 # Load the dataset
-data = pd.read_csv("recipe_final.csv")
+data = pd.read_csv("filtered_recipes_cleaned.csv")
 
-# Preprocess Ingredients
-vectorizer = TfidfVectorizer()
-X_ingredients = vectorizer.fit_transform(data['ingredients_list'])
+# Clean ingredients column (remove bullet points or special characters if necessary)
+data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)  # Clean ingredients
+data_clean = data.dropna()  # Remove rows with missing ingredients
 
-# Combine Features (Use the dense array directly)
-X_combined = X_ingredients.toarray()
+# Vectorize the ingredients using TF-IDF
+vectorizer = TfidfVectorizer(stop_words='english')
+X_ingredients = vectorizer.fit_transform(data_clean['clean_ingredients'])
 
-# Train KNN Model
-knn = NearestNeighbors(n_neighbors=6, metric='euclidean')
-knn.fit(X_combined)
-
-def recommend_recipes(input_features):
-    # Transform input ingredients
-    input_ingredients_transformed = vectorizer.transform([input_features[0]])
-    input_combined = input_ingredients_transformed.toarray()  # Use 2D array directly
+# Function to recommend recipes based on input ingredients
+def recommend_recipes(input_ingredients):
+    # Transform the input ingredients into the same vectorized form
+    input_vector = vectorizer.transform([input_ingredients])
     
-    # Get recommendations
-    distances, indices = knn.kneighbors(input_combined)
-    recommendations = data.iloc[indices[0]]
-    return recommendations[['recipe_name', 'ingredients_list', 'image_url']].head(10)
-
-# Function to truncate product name
-def truncate(text, length):
-    if len(text) > length:
-        return text[:length] + "..."
-    else:
-        return text
+    # Compute cosine similarity between the input and all recipes
+    similarity_scores = cosine_similarity(input_vector, X_ingredients)
+    
+    # Get the top 5 most similar recipes based on cosine similarity
+    similar_indices = similarity_scores.argsort()[0][-20:][::-1]
+    recommendations = data_clean.iloc[similar_indices]
+    
+    return recommendations[['title', 'clean_ingredients', 'image']]
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        ingredients = request.form['ing']
-        input_features = [ingredients]
-        recommendations = recommend_recipes(input_features)
+        ing = request.form['ing']
+        
+        # Check if input is valid
+        if len(ing.strip()) < 3:
+            return render_template(
+                'index.html',
+                recommendations=[],
+                message="Please enter a valid ingredient list."
+            )
+        
+        input_ingredients = ing  # User input ingredients
+        recommendations = recommend_recipes(input_ingredients)  # Get recommended recipes
+        
+        if recommendations.empty:
+            return render_template(
+                'index.html',
+                recommendations=[],
+                message="No relevant recipes found for your search."
+            )
+        
         return render_template(
             'index.html',
-            recommendations=recommendations.to_dict(orient='records'),
-            truncate=truncate
+            recommendations=recommendations.to_dict(orient='records')
         )
     return render_template('index.html', recommendations=[])
 
-@app.route('/recipe/<recipe_name>')
-def view_recipe(recipe_name):
+
+@app.route('/recipe/<title>')
+def view_recipe(title):
     # Find the specific recipe by name
-    recipe = data[data['recipe_name'] == recipe_name].to_dict(orient='records')
+    recipe = data_clean[data_clean['title'] == title].to_dict(orient='records')
     
     if recipe:
         # Get the first matching recipe (in case of duplicates)

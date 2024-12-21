@@ -17,7 +17,7 @@
         type="text"
         id="ing-txtfld"
         name="ing"
-        placeholder="Enter ingredients"
+        placeholder="Enter ingredients e.g. chicken, salt, pepper, soy sauce"
         required
       />
       <br />
@@ -37,11 +37,11 @@
       <div class="card recipe-card">
         <img
           class="card-img-top recipe-image"
-          src="{{ recipe['image_url'] }}"
-          alt="{{ recipe['recipe_name'] }}"
+          src="{{ recipe['image'] }}"
+          alt="{{ recipe['title'] }}"
         />
         <div class="card-body">
-          <h5 class="card-title">{{ recipe['recipe_name'] }}</h5>
+          <h5 class="card-title">{{ recipe['title'] }}</h5>
           <a
             href="{{ url_for('view_recipe', recipe_name=recipe['recipe_name']) }}"
             target="_blank"
