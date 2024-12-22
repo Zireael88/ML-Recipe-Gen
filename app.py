@@ -29,6 +29,10 @@ def recommend_recipes(input_ingredients):
     similar_indices = similarity_scores.argsort()[0][-20:][::-1]
     recommendations = data_clean.iloc[similar_indices]
     
+    # Check if the highest similarity score is above a certain threshold
+    if similarity_scores[0][similar_indices[0]] < 0.1:  # Adjust threshold as needed
+        return pd.DataFrame(columns=['title', 'clean_ingredients', 'image'])
+    
     return recommendations[['title', 'clean_ingredients', 'image']]
 
 @app.route('/', methods=['GET', 'POST'])
