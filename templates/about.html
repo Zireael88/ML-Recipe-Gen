@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block head %}
+<title>About Ingredible</title>
+{% endblock %} {% block body %}
+<main class="container mt-5">
+  <section class="text-center">
+    <h1>About Ingredible</h1>
+    <p class="lead mt-3">
+      <strong>Ingredible</strong> is your go-to app for discovering the best
+      recipes based on the ingredients you have on hand. Whether it's chicken,
+      soy sauce, or salt and pepper, simply enter your ingredients, and
+      Ingredible will find the perfect recipes for you.
+    </p>
+  </section>
+
+  <section class="mt-5">
+    <h2>How It Works</h2>
+    <p>
+      Ingredible uses a K-Nearest Neighbors (KNN) algorithm to search for
+      recipes that match your ingredients. Our dataset is sourced and scraped
+      from
+      <a href="https://panlasangpinoy.com" target="_blank">Panlasang Pinoy</a>,
+      ensuring authentic and delicious Filipino dishes at your fingertips.
+    </p>
+  </section>
+
+  <section class="mt-5">
+    <h2>The Team Behind Ingredible</h2>
+    <p>Ingredible is a project created by:</p>
+    <ul>
+      <li><strong>Samantha Faith M. Tan</strong></li>
+      <li><strong>John Mar Vincent G. Lat</strong></li>
+      <li><strong>Irish Joanne R. Roxas</strong></li>
+    </ul>
+    <p>
+      As passionate developers, we created Ingredible to make cooking easier and
+      more enjoyable by helping users make the most out of the ingredients they
+      already have.
+    </p>
+  </section>
+
+  <section class="mt-5">
+    <h2>Our Mission</h2>
+    <p>
+      Our mission is to empower home cooks by providing easy access to delicious
+      recipes, reducing food waste, and celebrating Filipino cuisine.
+    </p>
+  </section>
+</main>
+{% endblock %}

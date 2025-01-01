@@ -3,8 +3,15 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import re
 
 app = Flask(__name__)
+
+# Add custom regex filter
+@app.template_filter('regex_replace')
+def regex_replace(s, find, replace):
+    """A non-optimal implementation of a regex filter"""
+    return re.sub(find, replace, s)
 
 # Load the dataset
 data = pd.read_csv("filtered_recipes_cleaned.csv")
@@ -26,7 +33,7 @@ def recommend_recipes(input_ingredients):
     similarity_scores = cosine_similarity(input_vector, X_ingredients)
     
     # Get the top 5 most similar recipes based on cosine similarity
-    similar_indices = similarity_scores.argsort()[0][-20:][::-1]
+    similar_indices = similarity_scores.argsort()[0][-30:][::-1]
     recommendations = data_clean.iloc[similar_indices]
     
     # Check if the highest similarity score is above a certain threshold
@@ -64,7 +71,6 @@ def index():
         )
     return render_template('index.html', recommendations=[])
 
-
 @app.route('/recipe/<title>')
 def view_recipe(title):
     # Find the specific recipe by name
@@ -73,10 +79,32 @@ def view_recipe(title):
     if recipe:
         # Get the first matching recipe (in case of duplicates)
         recipe = recipe[0]
+        
+        # Clean the nutrition info
+        if isinstance(recipe['nutrition_info'], str):
+            # Remove percentage values and clean up the string
+            nutrition = recipe['nutrition_info']
+            nutrition = re.sub(r'\([^)]*\)', '', nutrition)  # Remove percentages in parentheses
+            recipe['nutrition_info'] = nutrition
+            
+        # Clean the instructions if they're in string format
+        if isinstance(recipe['instructions'], str):
+            # Remove the outer brackets and quotes
+            instructions = recipe['instructions'].strip('[]')
+            # Split by various possible delimiters
+            instructions = instructions.replace('", "', '|').replace('.,', '.|')
+            # Clean up and store back
+            recipe['instructions'] = instructions
+            
         return render_template('recipe_detail.html', recipe=recipe)
     else:
         # Handle case where recipe is not found
         return "Recipe not found", 404
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
