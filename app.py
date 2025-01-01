@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.neighbors import NearestNeighbors
 import re
 
 app = Flask(__name__)
@@ -25,21 +26,23 @@ vectorizer = TfidfVectorizer(stop_words='english')
 X_ingredients = vectorizer.fit_transform(data_clean['clean_ingredients'])
 
 # Function to recommend recipes based on input ingredients
+# Fit KNN model
+knn = NearestNeighbors(n_neighbors=18, metric='cosine')
+knn.fit(X_ingredients)
+
+# Function to recommend recipes using KNN
 def recommend_recipes(input_ingredients):
-    # Transform the input ingredients into the same vectorized form
     input_vector = vectorizer.transform([input_ingredients])
+    distances, indices = knn.kneighbors(input_vector)
     
-    # Compute cosine similarity between the input and all recipes
-    similarity_scores = cosine_similarity(input_vector, X_ingredients)
+    # Define a distance threshold (adjust as needed)
+    threshold = 0.7  # Lower values mean stricter matching
     
-    # Get the top 5 most similar recipes based on cosine similarity
-    similar_indices = similarity_scores.argsort()[0][-30:][::-1]
-    recommendations = data_clean.iloc[similar_indices]
+    # Filter recommendations based on distance
+    if distances[0][0] > threshold:
+        return pd.DataFrame(columns=['title', 'clean_ingredients', 'image'])  # Return empty DataFrame if no close match
     
-    # Check if the highest similarity score is above a certain threshold
-    if similarity_scores[0][similar_indices[0]] < 0.1:  # Adjust threshold as needed
-        return pd.DataFrame(columns=['title', 'clean_ingredients', 'image'])
-    
+    recommendations = data_clean.iloc[indices[0]]
     return recommendations[['title', 'clean_ingredients', 'image']]
 
 @app.route('/', methods=['GET', 'POST'])

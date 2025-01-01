@@ -40,8 +40,8 @@ body {
 }
 
 #header-logo {
-  margin-left: 50px;
   width: 10em;
+  margin: 0;
 }
 
 #stock-photo {
