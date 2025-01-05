@@ -43,7 +43,8 @@
         <div class="card-body">
           <h5 class="card-title">{{ recipe['title'] }}</h5>
           <a
-            href="{{ url_for('view_recipe', title=recipe['title']) }}", target="_blank"
+            href="{{ url_for('view_recipe', title=recipe['title']) }}"
+
             ><button id="view-recipe">View Recipe</button></a
           >
         </div>

@@ -40,11 +40,12 @@ body {
 }
 
 #header-logo {
-  margin-left: 50px;
   width: 10em;
+  margin: 0;
 }
 
 #stock-photo {
+  margin-top: 50px;
   width: 100%;
   max-width: 30em;
 }
@@ -82,18 +83,13 @@ body {
   width: 80%;
   max-width: 1200px;
   margin: auto;
-  gap: 50px ;
-}
-
-#input {
-  margin-top: -30px;
-  text-align: center;
+  gap: 50px;
 }
 
 #tagline {
-    font-size: 3em; /* Increase font size */
-    line-height: 1.2; /* Adjust spacing between lines */
-    margin-bottom: 10px;
+  font-size: 3em;
+  line-height: 1.2;
+  margin-bottom: 10px;
 }
 
 #instruction {

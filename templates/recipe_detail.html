@@ -3,6 +3,7 @@
 {% endblock %} {% block body %}
 <div class="container mt-5">
   <div class="row">
+    <h1>{{ recipe['title'] }}</h1>
     <div class="col-md-6">
       <img
         src="{{ recipe['image'] }}"
@@ -11,8 +12,6 @@
       />
     </div>
     <div class="col-md-6">
-      <h1>{{ recipe['title'] }}</h1>
-
       <h3>Ingredients</h3>
       <ul class="list-group">
         {% for ingredient in recipe['ingredients'].split(',') %}
@@ -25,10 +24,22 @@
   <div class="row mt-4">
     <div class="col-12">
       <h3>Instructions</h3>
-      <p>{{ recipe['instructions'] }}</p>
+      <ol class="list-group list-group-numbered">
+        {% for step in recipe['instructions'][1:-2].split("', '") %}
+        <li class="list-group-item">{{ step }}</li>
+        {% endfor %}
+      </ol>
     </div>
   </div>
-
-  <a href="/" id="back">Back to Home</a>
+  <div class="mt-4">
+    <h3>Nutrition Facts</h3>
+    <p class="nutrition-info">
+      {% for item in recipe['nutrition_info'].split(')') %} {% if item %} {{
+      item.strip() }} {% endif %} {% endfor %}
+    </p>
+  </div>
+  <div class="mt-4 mb-5">
+    <a href="/" class="btn btn-secondary" id="back">Back to Home</a>
+  </div>
 </div>
 {% endblock %}
