@@ -42,6 +42,11 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{ recipe['title'] }}</h5>
+          <p class="
+            {% if recipe['complexity']|lower == 'simple' %}text-simple
+            {% elif recipe['complexity']|lower == 'medium' %}text-medium
+            {% elif recipe['complexity']|lower == 'complex' %}text-complex
+            {% else %}text-very-complex{% endif %}"><strong>{{ recipe['complexity'] }}</strong></p>
           <a
             href="{{ url_for('view_recipe', title=recipe['title']) }}"
 

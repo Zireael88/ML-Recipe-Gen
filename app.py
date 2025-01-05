@@ -15,7 +15,7 @@ def regex_replace(s, find, replace):
     return re.sub(find, replace, s)
 
 # Load the dataset
-data = pd.read_csv("filtered_recipes_cleaned.csv")
+data = pd.read_csv("recipe.csv")
 
 # Clean ingredients column (remove bullet points or special characters if necessary)
 data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)  # Clean ingredients
@@ -40,10 +40,10 @@ def recommend_recipes(input_ingredients):
     
     # Filter recommendations based on distance
     if distances[0][0] > threshold:
-        return pd.DataFrame(columns=['title', 'clean_ingredients', 'image'])  # Return empty DataFrame if no close match
+        return pd.DataFrame(columns=['title', 'clean_ingredients', 'image', 'complexity'])  # Return empty DataFrame if no close match
     
     recommendations = data_clean.iloc[indices[0]]
-    return recommendations[['title', 'clean_ingredients', 'image']]
+    return recommendations[['title', 'clean_ingredients', 'image', 'complexity']]
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

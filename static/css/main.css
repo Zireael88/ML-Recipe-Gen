@@ -132,10 +132,10 @@ body {
 
 #view-recipe {
   background: none;
-  border: none;
+  border:none;
   text-align: left;
   padding: 2px;
-  font-size: medium;
+  font-size: large;
   color: rgb(247, 159, 26);
   text-decoration: underline;
 }
@@ -185,4 +185,20 @@ body {
     font-size: 14px;
     padding: 10px;
   }
+}
+
+.text-simple {
+  color: #2e7d32;
+}
+
+.text-medium {
+  color: #ef6c00;
+}
+
+.text-complex {
+  color: #c62828;
+}
+
+.text-very-complex {
+  color: rgb(100, 0, 104);
 }
