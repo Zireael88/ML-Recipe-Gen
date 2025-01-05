@@ -58,21 +58,22 @@ def index():
                 message="Please enter a valid ingredient list."
             )
         
-        input_ingredients = ing  # User input ingredients
-        recommendations = recommend_recipes(input_ingredients)  # Get recommended recipes
+        input_ingredients = ing
+        recommendations = recommend_recipes(input_ingredients)
         
         if recommendations.empty:
             return render_template(
                 'index.html',
                 recommendations=[],
-                message="No relevant recipes found for your search."
+                message=f"No recipes available for '{ing}'. Try different ingredients."
             )
         
         return render_template(
             'index.html',
-            recommendations=recommendations.to_dict(orient='records')
+            recommendations=recommendations.to_dict(orient='records'),
+            message=None
         )
-    return render_template('index.html', recommendations=[])
+    return render_template('index.html', recommendations=[], message=None)
 
 @app.route('/recipe/<title>')
 def view_recipe(title):
@@ -83,6 +84,7 @@ def view_recipe(title):
         # Get the first matching recipe (in case of duplicates)
         recipe = recipe[0]
         
+        
         # Clean the nutrition info
         if isinstance(recipe['nutrition_info'], str):
             # Remove percentage values and clean up the string
@@ -90,6 +92,7 @@ def view_recipe(title):
             nutrition = re.sub(r'\([^)]*\)', '', nutrition)  # Remove percentages in parentheses
             recipe['nutrition_info'] = nutrition
             
+        
         # Clean the instructions if they're in string format
         if isinstance(recipe['instructions'], str):
             # Remove the outer brackets and quotes

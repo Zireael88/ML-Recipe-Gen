@@ -26,6 +26,12 @@
     </form>
   </div>
 </div>
+{% if message %}
+<div class="alert alert-warning text-center mt-4" role="alert">
+  {{ message }}
+</div>
+{% endif %}
+
 {% if recommendations %}
 
 <div id="recommendations" class="mt-5">
@@ -70,3 +76,5 @@
   };
 </script>
 {% endif %} {% endblock %}
+
+
