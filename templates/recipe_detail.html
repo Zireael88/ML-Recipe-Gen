@@ -15,7 +15,7 @@
 
       <h3>Ingredients</h3>
       <ul class="list-group">
-        {% for ingredient in recipe['clean_ingredients'].split(',') %}
+        {% for ingredient in recipe['ingredients'].split(',') %}
         <li class="list-group-item">{{ ingredient.strip() }}</li>
         {% endfor %}
       </ul>
