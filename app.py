@@ -80,7 +80,7 @@ def index():
 @app.route('/recipe/<title>')
 def view_recipe(title):
     # Find the specific recipe by name
-    recipe = data_clean[data_clean['title'] == title].to_dict(orient='records')
+    recipe = data[data['title'] == title].to_dict(orient='records')
     
     if recipe:
         # Get the first matching recipe (in case of duplicates)
