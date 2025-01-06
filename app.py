@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import KNeighborsClassifier
 import re
 
 app = Flask(__name__)
@@ -19,16 +20,17 @@ data = pd.read_csv("recipe.csv")
 
 # Clean ingredients column (remove bullet points or special characters if necessary)
 data['ingredients'] = data['ingredients'].str.replace('▢', '', regex=False)  # Clean ingredients
-data_clean = data.dropna()  # Remove rows with missing ingredients
 
 # Vectorize the ingredients using TF-IDF
 vectorizer = TfidfVectorizer(stop_words='english')
-X_ingredients = vectorizer.fit_transform(data_clean['clean_ingredients'])
+X_ingredients = vectorizer.fit_transform(data['clean_ingredients'])
+
+y = data["title"]
 
 # Function to recommend recipes based on input ingredients
 # Fit KNN model
-knn = NearestNeighbors(n_neighbors=18, metric='cosine')
-knn.fit(X_ingredients)
+knn = KNeighborsClassifier(n_neighbors=18, metric='cosine')
+knn.fit(X_ingredients,y)
 
 # Function to recommend recipes using KNN
 def recommend_recipes(input_ingredients):
@@ -42,7 +44,7 @@ def recommend_recipes(input_ingredients):
     if distances[0][0] > threshold:
         return pd.DataFrame(columns=['title', 'clean_ingredients', 'image', 'complexity'])  # Return empty DataFrame if no close match
     
-    recommendations = data_clean.iloc[indices[0]]
+    recommendations = data.iloc[indices[0]]
     return recommendations[['title', 'clean_ingredients', 'image', 'complexity']]
 
 @app.route('/', methods=['GET', 'POST'])
