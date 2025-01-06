@@ -1,49 +1,214 @@
 {% extends 'base.html' %} {% block head %}
 <title>About Ingredible</title>
+<link
+  href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+  rel="stylesheet"
+/>
+<style>
+  /* General Styling */
+  body {
+    font-family: "Poppins", sans-serif;
+  }
+  h1,
+  h2 {
+    font-weight: 700;
+    color: #2c3e50;
+  }
+  h5 {
+    font-weight: 600;
+  }
+  p {
+    color: #7f8c8d;
+  }
+  a {
+    color: #2980b9;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #1abc9c;
+    text-decoration: underline;
+  }
+
+  /* Hero Section */
+  .hero {
+    background: url("https://source.unsplash.com/1600x900/?cooking,ingredients")
+      center/cover no-repeat;
+    color: white;
+    padding: 60px 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .hero p {
+    color: rgb(5, 5, 5);
+    font-size: 1.2rem;
+    margin-top: 15px;
+  }
+
+  /* Section Styling */
+  section {
+    background: #f0eded;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+  }
+
+  section:first-child {
+    background: none;
+    box-shadow: none;
+  }
+
+  /* Footer */
+  footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+  }
+  footer a {
+    color: #1abc9c;
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: #16a085;
+    text-decoration: underline;
+  }
+</style>
 {% endblock %} {% block body %}
 <main class="container mt-5">
-  <section class="text-center">
+  <!-- Hero Section -->
+  <section class="hero" data-aos="fade-up">
     <h1>About Ingredible</h1>
-    <p class="lead mt-3">
-      <strong>Ingredible</strong> is your go-to app for discovering the best
-      recipes based on the ingredients you have on hand. Whether it's chicken,
-      soy sauce, or salt and pepper, simply enter your ingredients, and
-      Ingredible will find the perfect recipes for you.
+    <p>
+      Discover recipes with the ingredients you have. Save time, reduce waste,
+      and enjoy cooking with Ingredible!
     </p>
   </section>
 
-  <section class="mt-5">
+  <!-- How It Works Section -->
+  <section data-aos="fade-up" data-aos-delay="200">
     <h2>How It Works</h2>
-    <p>
-      Ingredible uses a K-Nearest Neighbors (KNN) algorithm to search for
-      recipes that match your ingredients. Our dataset is sourced and scraped
-      from
-      <a href="https://panlasangpinoy.com" target="_blank">Panlasang Pinoy</a>,
-      ensuring authentic and delicious Filipino dishes at your fingertips.
-    </p>
+    <div class="row mt-4">
+      <div class="col-md-4" data-aos="zoom-in">
+        <img
+          src="/static/img/search_recipe.png"
+          alt="Step 1"
+          class="mb-2"
+          style="width: 100px; height: auto"
+        />
+        <h5>Step 1</h5>
+        <p>Enter your ingredients.</p>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+        <img
+          src="/static/img/step2.png"
+          alt="Step 2"
+          class="mb-2"
+          style="width: 100px; height: auto"
+        />
+        <h5>Step 2</h5>
+        <p>Find the perfect recipes.</p>
+      </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+        <img
+          src="/static/img/step3.png"
+          alt="Step 3"
+          class="mb-2"
+          style="width: 100px; height: auto"
+        />
+        <h5>Step 3</h5>
+        <p>Cook and enjoy your meal!</p>
+      </div>
+    </div>
   </section>
 
-  <section class="mt-5">
+  <!-- Team Section -->
+  <section data-aos="fade-up" data-aos-delay="300">
     <h2>The Team Behind Ingredible</h2>
-    <p>Ingredible is a project created by:</p>
-    <ul>
-      <li><strong>Samantha Faith M. Tan</strong></li>
-      <li><strong>John Mar Vincent G. Lat</strong></li>
-      <li><strong>Irish Joanne R. Roxas</strong></li>
-    </ul>
-    <p>
-      As passionate developers, we created Ingredible to make cooking easier and
-      more enjoyable by helping users make the most out of the ingredients they
-      already have.
-    </p>
+    <div class="row text-center">
+      <div class="col-md-4" data-aos="flip-left">
+        <img
+          src="/static/img/samantha_pic.png"
+          class="rounded-circle mb-2"
+          alt="Samantha Tan"
+          style="width: 150px; height: auto"
+        />
+        <h5>Samantha Faith M. Tan</h5>
+        <p>Developer & UX Designer</p>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+        <img
+          src="/static/img/johnmar_pic.jpg"
+          class="rounded-circle mb-2"
+          alt="John Lat"
+          style="width: 150px; height: auto"
+        />
+        <h5>John Mar Vincent G. Lat</h5>
+        <p>Backend Developer & UI Designer</p>
+      </div>
+      <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+        <img
+          src="/static/img/irish_pic.png"
+          class="rounded-circle mb-2"
+          alt="Irish Roxas"
+          style="width: 150px; height: auto"
+        />
+        <h5>Irish Joanne R. Roxas</h5>
+        <p>Data Specialist and Documentator</p>
+      </div>
+    </div>
   </section>
 
-  <section class="mt-5">
-    <h2>Our Mission</h2>
-    <p>
-      Our mission is to empower home cooks by providing easy access to delicious
-      recipes, reducing food waste, and celebrating Filipino cuisine.
-    </p>
+  <!-- Testimonials Section -->
+  <section data-aos="fade-up" data-aos-delay="400">
+    <h2>What Users Say</h2>
+    <div
+      class="carousel slide"
+      id="testimonialCarousel"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-inner">
+        <div class="carousel-item active text-center">
+          <p>"WOW ANG SARAP NG MGA LUTONG HOTDOG"</p>
+          <h5>- Aljur Abrenica</h5>
+        </div>
+        <div class="carousel-item text-center">
+          <p>"Finally, I can cook na hindi nasusunog :D"</p>
+          <h5>- Yurie Funilas</h5>
+        </div>
+      </div>
+      <a
+        class="carousel-control-prev"
+        href="#testimonialCarousel"
+        role="button"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </a>
+      <a
+        class="carousel-control-next"
+        href="#testimonialCarousel"
+        role="button"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </a>
+    </div>
   </section>
 </main>
+
+<!-- Footer -->
+<footer class="text-center">
+  <p>&copy; 2025 Ingredible. All Rights Reserved.</p>
+  <div>
+    <a href="https://facebook.com" target="_blank">Facebook</a> |
+    <a href="https://twitter.com" target="_blank">Twitter</a> |
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<!-- AOS Library -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
 {% endblock %}

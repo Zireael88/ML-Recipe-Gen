@@ -1,45 +1,161 @@
 {% extends 'base.html' %} {% block head %}
 <title>{{ recipe['title'] }} - Ingredible</title>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Lora:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
 {% endblock %} {% block body %}
+<header class="bg-dark text-white py-3">
+  <div class="container text-center">
+    <h1 class="display-4">{{ recipe['title'] }}</h1>
+  </div>
+</header>
+
 <div class="container mt-5">
   <div class="row">
-    <h1>{{ recipe['title'] }}</h1>
     <div class="col-md-6">
-      <img
-        src="{{ recipe['image'] }}"
-        alt="{{ recipe['title'] }}"
-        class="img-fluid rounded"
-      />
+      <div
+        class="img-container mb-4"
+        data-aos="fade-right"
+        data-aos-duration="1000"
+      >
+        <img
+          src="{{ recipe['image'] }}"
+          alt="{{ recipe['title'] }}"
+          class="img-fluid rounded shadow-lg"
+        />
+      </div>
     </div>
     <div class="col-md-6">
-      <h3>Ingredients</h3>
-      <ul class="list-group">
-        {% for ingredient in recipe['ingredients'].split(',') %}
-        <li class="list-group-item">{{ ingredient.strip() }}</li>
-        {% endfor %}
-      </ul>
+      <div class="card shadow-lg border-0">
+        <div class="card-body">
+          <h3 class="card-title" data-aos="fade-up" data-aos-duration="1000">
+            Ingredients
+          </h3>
+          <ul class="list-group list-group-flush">
+            {% for ingredient in recipe['ingredients'].split(',') %}
+            <li
+              class="list-group-item"
+              data-aos="fade-in"
+              data-aos-duration="1000"
+            >
+              {{ ingredient.strip() }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="row mt-4">
+  <div class="row mt-5">
     <div class="col-12">
-      <h3>Instructions</h3>
+      <h3 class="text-center" data-aos="fade-up" data-aos-duration="1000">
+        Instructions
+      </h3>
       <ol class="list-group list-group-numbered">
         {% for step in recipe['instructions'][1:-2].split("', '") %}
-        <li class="list-group-item">{{ step }}</li>
+        <li class="list-group-item" data-aos="fade-in" data-aos-duration="1000">
+          {{ step }}
+        </li>
         {% endfor %}
       </ol>
     </div>
   </div>
-  <div class="mt-4">
-    <h3>Nutrition Facts</h3>
-    <p class="nutrition-info">
-      {% for item in recipe['nutrition_info'].split(')') %} {% if item %} {{
-      item.strip() }} {% endif %} {% endfor %}
-    </p>
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <h3 class="text-center" data-aos="fade-up" data-aos-duration="1000">
+        Nutrition Facts
+      </h3>
+      <table
+        class="table table-bordered mt-3"
+        data-aos="fade-in"
+        data-aos-duration="1000"
+      >
+        <tbody>
+          {% for item in recipe['nutrition_info'].split(')') %} {% if item %}
+          <tr>
+            <td>{{ item.strip() }}</td>
+          </tr>
+          {% endif %} {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-  <div class="mt-4 mb-5">
-    <a href="/" class="btn btn-secondary" id="back">Back to Home</a>
+
+  <div class="text-center mt-5 mb-5">
+    <a
+      href="/"
+      class="btn btn-lg btn-primary"
+      id="back"
+      data-aos="fade-up"
+      data-aos-duration="1000"
+    >
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
   </div>
 </div>
+
+<footer class="bg-dark text-white py-3 mt-5">
+  <div class="container text-center">
+    <p class="mb-0">&copy; 2025 Ingredible. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- Styling Enhancements -->
+<style>
+  body {
+    font-family: "Poppins", sans-serif;
+    line-height: 1.6;
+  }
+
+  header {
+    font-family: "Lora", serif;
+  }
+
+  h1,
+  h3 {
+    color: #ffffff;
+  }
+
+  .img-container img {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .img-container img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary {
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .btn-primary:hover {
+    background-color: #1abc9c;
+    border-color: #1abc9c;
+  }
+
+  .list-group-item {
+    background-color: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .list-group-item:hover {
+    background-color: #ecf0f1;
+  }
+
+  footer {
+    font-size: 14px;
+  }
+</style>
+
+<script>
+  AOS.init(); // Initialize AOS (Animate On Scroll)
+</script>
 {% endblock %}

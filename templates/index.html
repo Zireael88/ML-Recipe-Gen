@@ -30,9 +30,7 @@
 <div class="alert alert-warning text-center mt-4" role="alert">
   {{ message }}
 </div>
-{% endif %}
-
-{% if recommendations %}
+{% endif %} {% if recommendations %}
 
 <div id="recommendations" class="mt-5">
   <h3>Recommended Recipes</h3>
@@ -48,14 +46,12 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{ recipe['title'] }}</h5>
-          <p class="
-            {% if recipe['complexity']|lower == 'simple' %}text-simple
-            {% elif recipe['complexity']|lower == 'medium' %}text-medium
-            {% elif recipe['complexity']|lower == 'complex' %}text-complex
-            {% else %}text-very-complex{% endif %}"><strong>{{ recipe['complexity'] }}</strong></p>
-          <a
-            href="{{ url_for('view_recipe', title=recipe['title']) }}"
-
+          <p
+            class="{% if recipe['complexity']|lower == 'simple' %}text-simple {% elif recipe['complexity']|lower == 'medium' %}text-medium {% elif recipe['complexity']|lower == 'complex' %}text-complex {% else %}text-very-complex{% endif %}"
+          >
+            <strong>{{ recipe['complexity'] }}</strong>
+          </p>
+          <a href="{{ url_for('view_recipe', title=recipe['title']) }}"
             ><button id="view-recipe">View Recipe</button></a
           >
         </div>
@@ -76,5 +72,3 @@
   };
 </script>
 {% endif %} {% endblock %}
-
-
